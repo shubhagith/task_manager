@@ -18,7 +18,6 @@ This is a simple command-line interface (CLI) application for managing tasks. It
 ## Installation
 
 1. Clone this repository or download the `task_manager.py` file.
-2. No additional dependencies are required.
 
 ## Usage
 
