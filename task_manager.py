@@ -1,5 +1,7 @@
+# Import the json to handle JSON file operations
 import json
 
+# Class represents a single task with id, title and completed status
 class Task:
     def __init__(self, id, title, completed=False):
         self.id = id
@@ -13,12 +15,14 @@ class Task:
             "completed": self.completed
         }
 
+# Class having all features like load, save, add, view,delete, and mark tasks as completed.
 class TaskManager:
     def __init__(self, filename="tasks.json"):
         self.tasks = []
         self.filename = filename
         self.load_tasks()
 
+    # Load tasks from json file
     def load_tasks(self):
         try:
             with open(self.filename, 'r') as f:
@@ -38,11 +42,13 @@ class TaskManager:
         except json.JSONDecodeError:
             print(f"Error reading {self.filename}. File may be empty or corrupt. Starting with an empty task list.")   
 
+    # Save tasks to json file
     def save_tasks(self):
         with open(self.filename, 'w') as f:
             json.dump([task.to_dict() for task in self.tasks], f, indent=2)
         print(f"Tasks saved to {self.filename}")
     
+    # Add task 
     def add_task(self, title):
         new_id = max([task.id for task in self.tasks], default=0) + 1
         task = Task(new_id, title)
@@ -50,6 +56,7 @@ class TaskManager:
         print(f"Task added: {title}")
         self.save_tasks()
 
+    # View Task
     def view_tasks(self):
         if not self.tasks:
             print("No tasks found.")
@@ -58,6 +65,7 @@ class TaskManager:
                 status = "Completed" if task.completed else "Pending"
                 print(f"ID: {task.id}, Title: {task.title}, Status: {status}")
 
+    # Delete task
     def delete_task(self, task_id):
         task_id = int(task_id)
         for task in self.tasks:
@@ -68,6 +76,7 @@ class TaskManager:
                 return
         print("Task not found.")
 
+    #Mark task as completed
     def mark_completed(self, task_id):
         task_id = int(task_id)
         for task in self.tasks:
@@ -80,10 +89,11 @@ class TaskManager:
 
 
 
-
+# Main Funcction
 def main():
     task_manager = TaskManager()
 
+    # Display menu options
     while True:
         print("\n--- Task Manager ---")
         print("1. Add Task")
@@ -94,6 +104,7 @@ def main():
 
         choice = input("Enter your choice (1-5): ")
 
+        # Handle user input
         if choice == '1':
             title = input("Enter task title: ")
             task_manager.add_task(title)
